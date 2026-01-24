@@ -150,3 +150,21 @@ print(f"\n--- Defense ({inputs['defense_name']}) ---")
 print(result['defense_argument'])
 print("\n--- JUDGE'S DECISION ---")
 print(result['final_verdict'])
+
+def save_graph_image():
+    print("Graph image generate ho rahi hai...")
+    try:
+        # Graph ka data bytes mein lein
+        graph_image = workflow.get_graph().draw_mermaid_png()
+        
+        # File save karein
+        with open("legal_case_workflow.png", "wb") as f:
+            f.write(graph_image)
+            
+        print("✅ Graph save ho gaya! Check karein: 'legal_case_workflow.png'")
+        
+    except Exception as e:
+        print(f"❌ Graph nahi ban saka. Error: {e}")
+
+# Function call karein
+save_graph_image()
