@@ -27,6 +27,7 @@ def chat_node(state: ChatState):
 
     
     return {'messages': [response]}
+
 graph = StateGraph(ChatState)
 
 
