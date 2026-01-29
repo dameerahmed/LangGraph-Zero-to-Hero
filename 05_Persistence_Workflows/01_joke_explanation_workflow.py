@@ -47,12 +47,15 @@ checkpointer=InMemorySaver()
 
 workflow = graph.compile(checkpointer=checkpointer)
 
-state = {'topic': 'university ki larki pasandh ha uska name gull meena ha or larka ka name dameer laken larki ko nahi pata larka usa pasandh karta ha romon urdu ma title'} 
+state = {'topic': 'pakistan'} 
 
 
 config1={
     'configurable':{'thread_id':'1'},
 }
 output = workflow.invoke(state,config=config1)
-
+st=workflow.get_state_history(config1)
 print(f"Topic: {output['topic']} \nJoke: {output['joke']} \nExplanation: {output['explanation']}")
+
+for s in st:
+    print(s)
