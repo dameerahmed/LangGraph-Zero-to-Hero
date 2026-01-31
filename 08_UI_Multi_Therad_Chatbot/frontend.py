@@ -126,4 +126,4 @@ if user_input := st.chat_input("Sawal pucho..."):
             st.error(f"Streaming mein masla aaya: {e}")
             
             
-            
+            print(e)
