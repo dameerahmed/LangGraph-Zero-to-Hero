@@ -23,7 +23,6 @@ def add_thread_id(thread_id, title="New Chat"):
 def reset_chat():
     st.session_state.thread_id = generate_thread_id()
     st.session_state.message_history.clear() 
-    add_thread_id(st.session_state.thread_id)
     st.rerun()
 
 def load_conversation(thread_id):
@@ -48,7 +47,7 @@ if "thread_id" not in st.session_state:
 if "chat_thread" not in st.session_state:
     st.session_state.chat_thread = load_threads()
 
-add_thread_id(st.session_state.thread_id)    
+  
     
     
 # 2 sidebar
@@ -78,6 +77,7 @@ for message in st.session_state.message_history:
 
 # 4. User Input Handle karna
 if user_input := st.chat_input("Sawal pucho..."):
+    add_thread_id(st.session_state.thread_id)
     config={"configurable": {"thread_id": st.session_state.thread_id}}
     # User ka message screen par dikhana aur history mein save karna
     st.session_state.message_history.append({"role": "user", "content": user_input})
