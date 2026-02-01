@@ -1,5 +1,6 @@
 import os
 import time
+from langsmith import traceable
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -17,22 +18,39 @@ PDF_PATH = "C:/Users/Dameer Ahmed/Documents/Development/langChain_practice/Intro
 
 
     # 1. Load PDF (Limited to 5 pages for speed and to avoid rate limits)
-print("Loading PDF...")
-loader = PyPDFLoader(PDF_PATH)
-docs = loader.load()[:5] 
+@traceable(name="load_pdf")    
+def load_pdf(PDF_PATH: str):
+    print("Loading PDF...")
+    loader = PyPDFLoader(PDF_PATH)
+    docs = loader.load()[:5]
+    return docs
     
     # 2. Split Text
-print("Splitting text...")
-splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
-splits = splitter.split_documents(docs)
+@traceable(name="split_text")    
+def split_text(docs):
+    print("Splitting text...")
+    splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=150)
+    splits = splitter.split_documents(docs)
+    return splits
 
 # 3. Embed and Store (Simple FAISS)
-print(f"Embedding {len(splits)} chunks...")
-embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
-vectorstore = FAISS.from_documents(splits, embeddings)
-retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 4})
+@traceable(name="embed_and_store")
+def embed_and_store(splits):
+    print(f"Embedding {len(splits)} chunks...")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
+    vectorstore = FAISS.from_documents(splits, embeddings)
+    retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 4})
+    return retriever
 
-    # 4. Define Chain
+@traceable(name="pipline")
+def pipline(path: str):
+    docs = load_pdf(path)
+    splits = split_text(docs)
+    retriever = embed_and_store(splits)
+    return retriever
+
+retriever = pipline(PDF_PATH)
+
 llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
     
 template = """Answer the question based ONLY on the following context:
@@ -51,6 +69,7 @@ rag_chain = (
     | llm
     | StrOutputParser()
 )
+
 
 # 5. Chat Loop
 print("\n✅ RAG Chatbot Ready! (Type 'exit' to quit)")
