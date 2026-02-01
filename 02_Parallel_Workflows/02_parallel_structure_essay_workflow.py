@@ -5,8 +5,9 @@ from typing import  TypedDict,Annotated
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 import operator
+import os
 
-
+os.environ["LANGCHAIN_PROJECT"] = "parallel_structure_essay_workflow"
 load_dotenv()
 
 Gimi_model = ChatGoogleGenerativeAI(

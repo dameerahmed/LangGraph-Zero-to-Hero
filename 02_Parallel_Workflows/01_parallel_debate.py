@@ -3,6 +3,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
 from typing import  TypedDict
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
