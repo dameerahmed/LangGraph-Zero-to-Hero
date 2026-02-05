@@ -7,6 +7,7 @@ requires-python = ">=3.11"
 dependencies = [
     "ddgs>=9.10.0",
     "faiss-cpu>=1.13.2",
+    "fastmcp>=2.14.5",
     "ipython>=9.9.0",
     "langchain>=1.2.7",
     "langchain-chroma>=1.1.0",
@@ -14,6 +15,7 @@ dependencies = [
     "langchain-google-genai>=4.2.0",
     "langchain-groq>=1.1.1",
     "langchain-huggingface>=1.2.0",
+    "langchain-mcp-adapters>=0.2.1",
     "langchain-openai>=1.1.7",
     "langgraph>=1.0.7",
     "pypdf>=6.6.2",
