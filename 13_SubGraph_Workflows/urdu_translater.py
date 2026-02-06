@@ -30,8 +30,8 @@ subgraph=StateGraph(substate)
 
 
 def urdu_translater(state: substate)->substate:
-    promt = f"Translate the following text into Romon Urdu: {state['text']}"
-    urdu_text = subgraph_model.invoke(promt).content
+    prompt = f"Translate the following text into Roman Urdu: {state['text']}"
+    urdu_text = subgraph_model.invoke(prompt).content
     return {"urdu_text": urdu_text}
 
 subgraph.add_node('llm', urdu_translater)
@@ -52,8 +52,8 @@ def answer_generator(state: parentstate)->parentstate:
     return {"answer": answer}
 
 def translate_answer(state: parentstate)->parentstate:
-    urdu_answer = subgraph.invoke(state['answer'])
-    return {"urdu_answer": urdu_answer}
+    response = subgraph.invoke({"text": state['answer']})
+    return {"urdu_answer": response["urdu_text"]}
 
  
 parentgraph.add_node('answer_generator', answer_generator)
