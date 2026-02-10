@@ -14,8 +14,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 docs = (
-    PyPDFLoader("C:/Users/Dameer Ahmed/Documents/Development/langChain_practice/Introduction_to_Python_Programming_-_WEB.pdf").load()
-)
+    PyPDFLoader("PYTHON PROGRAMMING NOTES.pdf").load()
+)[::20]
 chunks = RecursiveCharacterTextSplitter(chunk_size=900, chunk_overlap=150).split_documents(docs)
 for d in chunks:
     d.page_content = d.page_content.encode("utf-8", "ignore").decode("utf-8", "ignore")
@@ -218,7 +218,7 @@ app
 
 res = app.invoke(
     {
-        "question": "What are attention mechanisms and why are they important in current models?",
+        "question": "What is Python?",
         "docs": [],
         "good_docs": [],
         "verdict": "",
